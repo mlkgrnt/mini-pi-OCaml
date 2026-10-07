@@ -1,0 +1,23 @@
+_build/
+*.install
+.merlin
+
+# Dependency sources unpacked for the manual, opam-free build
+# (~120 MB of third-party code plus its own _build). See tools/build-deps.sh.
+.deps/
+
+# TUI build artefacts
+tui/node_modules/
+tui/dist/
+tui/npm-install.log
+tui_dist/
+
+# Session state
+.mini-pi/
+
+# Raw HTTP captures written by MINI_PI_HTTP_DUMP, which contain response
+# headers and, in the .request file, the request body.
+.dump.txt*
+
+# Local agent workspace state (notes, logs) -- not part of the port
+.workbuddy/

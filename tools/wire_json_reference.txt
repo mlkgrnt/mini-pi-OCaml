@@ -1,0 +1,81 @@
+== ai.types ==
+UserMessage
+  {"role":"user","content":"hello"}
+AssistantMessage (full)
+  {"role":"assistant","content":"hi","tool_calls":[{"id":"c1","name":"read","arguments":{"path":"a"}}],"thinking":"why","thinking_signature":"reasoning_content","stop_reason":"tool_use","error_message":null,"usage":{"input_tokens":10,"output_tokens":2,"cache_read":1,"total_tokens":12}}
+AssistantMessage (empty)
+  {"role":"assistant","content":"","tool_calls":[],"thinking":"","thinking_signature":null,"stop_reason":null,"error_message":null,"usage":null}
+ToolResultMessage
+  {"role":"tool_result","tool_call_id":"c1","tool_name":"read","content":"x","is_error":true}
+TextDeltaEvent
+  {"type":"text_delta","delta":"ab"}
+ThinkingDeltaEvent
+  {"type":"thinking_delta","delta":"ab"}
+
+== agent.events ==
+agent_start
+  {"type":"agent_start"}
+agent_end
+  {"type":"agent_end","messages":[{"role":"user","content":"hello"}]}
+turn_start
+  {"type":"turn_start"}
+turn_end
+  {"type":"turn_end","message":{"role":"assistant","content":"hi","tool_calls":[],"thinking":"","thinking_signature":null,"stop_reason":"stop","error_message":null,"usage":null},"tool_results":[{"role":"tool_result","tool_call_id":"c1","tool_name":"read","content":"x","is_error":false}]}
+message_start
+  {"type":"message_start","message":{"role":"user","content":"hello"}}
+message_end
+  {"type":"message_end","message":{"role":"assistant","content":"hi","tool_calls":[],"thinking":"","thinking_signature":null,"stop_reason":null,"error_message":null,"usage":null}}
+message_update/text_delta
+  {"type":"message_update","assistant_message_event":{"type":"text_delta","delta":"ab"}}
+tool_execution_start
+  {"type":"tool_execution_start","tool_call_id":"i","tool_name":"bash","arguments":{}}
+tool_execution_end
+  {"type":"tool_execution_end","tool_call_id":"i","tool_name":"bash","result":"out","is_error":false}
+
+== coding.events ==
+compaction_start
+  {"type":"compaction_start","reason":"manual"}
+compaction_end
+  {"type":"compaction_end","result":null,"error_message":"boom"}
+compaction_end ok
+  {"type":"compaction_end","result":"2 messages","error_message":null}
+
+== coding.messages ==
+compaction_summary
+  {"role":"compaction_summary","summary":"S"}
+
+== session entries ==
+SessionHeader
+  {"type":"header","id":"h1","timestamp":"2026-10-07T00:00:00.000000+00:00","cwd":"/w"}
+MessageEntry
+  {"type":"message","id":"e1","timestamp":"2026-10-07T00:00:00.000000+00:00","parent_id":"h1","message":{"role":"user","content":"hello"}}
+CompactionEntry
+  {"type":"compaction","id":"e2","timestamp":"2026-10-07T00:00:00.000000+00:00","parent_id":"e1","summary":"S","first_kept_entry_id":"e1"}
+
+== session list metadata ==
+ChatSessionFileMetadata
+  {"updated_at":"2026-10-07T12:34:56.123456","id":"s1","title":"first"}
+
+== rpc payloads ==
+SessionState
+  {"model":"Minimax M3","session_id":null,"session_name":null}
+SessionData
+  {"session_id":"s1","messages":[{"role":"user","content":"hi"}]}
+SessionListData
+  {"rows":[{"updated_at":"2026-10-07T12:34:56.123456","id":"s1","title":null}]}
+RewindTargetsData
+  {"targets":[{"entry_id":"e1","text":"hello"}]}
+ExtensionCommandsData
+  {"commands":[{"name":"permission","description":"d"}]}
+EmptySuccessResponse
+  {"id":"req_1","type":"response","request_type":"prompt","success":true}
+RpcPayloadResponse
+  {"id":"req_2","type":"response","request_type":"get_state","success":true,"data":{"model":"Minimax M3","session_id":null,"session_name":null}}
+RpcErrorResponse
+  {"id":"req_3","type":"response","request_type":"prompt","success":false,"error":"boom"}
+ExtensionUIRequest (select)
+  {"type":"extension_ui_request","id":"ab12cd","payload":{"method":"select","title":"t","options":["Yes","No"]}}
+ExtensionUIRequest (notify)
+  {"type":"extension_ui_request","id":"ab12cd","payload":{"method":"notify","message":"m","notify_type":"warning"}}
+ExtensionUIResponse
+  {"type":"extension_ui_response","id":"ab12cd","value":"Yes","cancelled":false}

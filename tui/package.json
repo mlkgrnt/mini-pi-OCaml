@@ -1,0 +1,26 @@
+{
+  "name": "tui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=../tui_dist/mini-pi-tui.mjs && cp -r src/assets ../tui_dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@earendil-works/pi-tui": "^0.85.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}

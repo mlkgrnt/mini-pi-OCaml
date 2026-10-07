@@ -1,0 +1,4 @@
+(executables
+ (names live_opencode transport_probe)
+ (flags (:standard -warn-error -a))
+ (libraries mini_pi yojson lwt lwt.unix threads.posix unix))

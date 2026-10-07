@@ -1,0 +1,4 @@
+(test
+ (name test_mini_pi)
+ (flags (:standard -warn-error -a))
+ (libraries mini_pi yojson lwt lwt.unix threads.posix unix))
